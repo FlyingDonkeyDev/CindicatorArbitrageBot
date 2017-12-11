@@ -49,7 +49,7 @@ class Crawler:
         
     """
 
-    def __init__(self, coin_map, db, logger, timeout=1, history=True, h_update_time=3600, h_threshold_time=1):
+    def __init__(self, coin_map, db, logger, timeout=10, history=True, h_update_time=3600, h_threshold_time=1):
         self.coin_map = coin_map
         self.db = db
         self.timeout = timeout

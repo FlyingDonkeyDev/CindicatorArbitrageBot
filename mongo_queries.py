@@ -33,18 +33,24 @@ db.authenticate(local_config.MONGO_BOT_USER, local_config.MONGO_BOT_PASSWORD)
 # Dictionary that compares coin name with coin name on specific exchange
 def _coin_map():
     return db.settings.find_one()['coin_map']
+
+
 coin_map = _coin_map()
 
 
 # All available coins
 def _coins():
     return db.settings.find_one()['coin_map'].keys()
+
+
 coins = _coins()
 
 
 # Dictionary that compares exchange name from DB with real exchange name
 def _exchange_map():
     return db.settings.find_one()['exchange_map']
+
+
 exchange_map = _exchange_map()
 # All available exchanges
 exchanges = exchange_map.keys()
@@ -53,6 +59,8 @@ exchanges = exchange_map.keys()
 # Default settings for users
 def _default_settings():
     return db.settings.find_one()['default_settings']
+
+
 default_settings = _default_settings()
 
 

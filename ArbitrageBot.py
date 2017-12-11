@@ -34,6 +34,9 @@ from services import (
     settings,
     alerts
 )
+import logging
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 class ArbitrageBot(telegram.bot.Bot):
@@ -61,7 +64,7 @@ class ArbitrageBot(telegram.bot.Bot):
 def launch():
     msg_queue = mqueue.MessageQueue(all_burst_limit=29, all_time_limit_ms=1017)
     request = Request(con_pool_size=4 + local_config.WORKERS_NUM)
-    bot = ArbitrageBot(local_config.TOKEN, request=request, msg_queue=msg_queue)
+    bot = ArbitrageBot(token=local_config.TOKEN, request=request, msg_queue=msg_queue)
     updater = Updater(bot=bot, workers=local_config.WORKERS_NUM)
     dispatcher = updater.dispatcher
 
@@ -173,12 +176,19 @@ def launch():
     # Restart users notifications
     core.restart_jobs(dispatcher, mq.get_users())
 
+    print("port="+str(local_config.PORT))
+    print("url_path = " + local_config.TOKEN)
+    print("webhook_url = " +local_config.URL+local_config.TOKEN)
+
     updater.start_webhook(listen='0.0.0.0',
                           port=local_config.PORT,
                           url_path=local_config.TOKEN,
                           key=local_config.WEBHOOK_PKEY,
                           cert=local_config.WEBHOOK_CERT,
                           webhook_url=local_config.URL+local_config.TOKEN)
+    # Start the Bot
+    updater.start_polling()
+
     updater.idle()
 
 if __name__ == '__main__':

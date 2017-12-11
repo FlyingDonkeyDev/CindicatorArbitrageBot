@@ -22,6 +22,7 @@ along with CindicatorArbitrageBot. If not, see <http://www.gnu.org/licenses/>.
 # Exchanges url
 POLONIEX_URL = 'https://poloniex.com/public?command=returnTicker'
 KRAKEN_URL = 'https://api.kraken.com/0/public/Ticker?pair='
+LIQUI_URL = 'https://api.liqui.io/api/3/depth/'
 OKCOIN_URL = 'https://www.okcoin.com/api/v1/ticker.do?symbol='
 GEMINI_URL = 'https://api.gemini.com/v1/pubticker/'
 BITSTAMP_URL = 'https://www.bitstamp.net/api/v2/ticker/'

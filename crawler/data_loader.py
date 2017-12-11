@@ -37,6 +37,7 @@ from config import base as base_config
 URL_MAP = {
     'poloniex': lambda coin: base_config.POLONIEX_URL,
     'kraken': lambda coin: base_config.KRAKEN_URL + coin,
+    'liqui': lambda coin: base_config.LIQUI_URL + coin + '?limit=1',
     'okcoin': lambda coin: base_config.OKCOIN_URL + coin,
     'gemini': lambda coin: base_config.GEMINI_URL + coin,
     'bitstamp': lambda coin: base_config.BITSTAMP_URL + coin,
@@ -51,6 +52,11 @@ def parse_kraken(data, coin):
             'bid': float(data['result'][real_name]['b'][0])}
 
 
+def parse_liqui(data, coin):
+    print(data)
+    return {'ask': float(data[coin]['asks'][0][0]),
+            'bid': float(data[coin]['bids'][0][0])}
+
 # Dict map, where keys are exchanges and values are functions with:
 #   Args:
 #     - data <dict> crawled data from exchange API
@@ -62,6 +68,7 @@ PARSE_MAP = {
     'poloniex': lambda data, coin: {'ask': float(data[coin]['lowestAsk']),
                                     'bid': float(data[coin]['highestBid'])},
     'kraken': parse_kraken,
+    'liqui': parse_liqui,
     'okcoin': lambda data, coin: {'ask': float(data['ticker']['sell']),
                                   'bid': float(data['ticker']['buy'])},
     'gemini': lambda data, coin: {'ask': float(data['ask']),
